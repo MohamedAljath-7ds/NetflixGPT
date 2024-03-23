@@ -1,13 +1,22 @@
 import Login from "./Login"
-import { BACK_URL } from "../utils/netflixurl"
+import Browse from "./Browse"
+import {createBrowserRouter} from "react-router-dom"
+import { RouterProvider } from "react-router-dom"
 
 const Body = () => {
+ const appRouter = createBrowserRouter([
+  {
+    path:"/",
+    element:<Login/>
+  },
+  {
+    path:"/browse",
+    element:<Browse/>
+  }
+ ])
   return (
     <>
-        <Login/>
-        <div>
-          <img src={BACK_URL} alt="background" className="bg-gradient-to-b"/>  
-        </div>   
+        <RouterProvider router={appRouter}/>
     </>
   )
 }
