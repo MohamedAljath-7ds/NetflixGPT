@@ -2,6 +2,8 @@ import { useRef, useState } from "react"
 import Header from "./Header"
 import { BACK_URL } from "../utils/netflixurl";
 import { checkValidate } from "../utils/checkvalidation";
+import {  createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 
 const Login = () => {
@@ -18,6 +20,38 @@ const Login = () => {
   const handleform = () => {
     const message = checkValidate(email.current.value, password.current.value);
     setErrorMessage(message);
+    //Authentication
+    if(message) return;
+    if(!isSignInForm){
+       //signup form
+       createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message; 
+    setErrorMessage(errorCode + "-" + errorMessage);
+    // ..
+  });
+      }
+      else{
+        signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user);
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrorMessage(errorCode + "-" + errorMessage);
+  });
+      }
 
   }
 
