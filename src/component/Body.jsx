@@ -5,9 +5,8 @@ import { RouterProvider } from "react-router-dom"
 import { useEffect } from "react"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "../utils/firebase"
-import { Provider, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { RemoveUser, addUser } from "../utils/userSlice"
-import appStore from "../utils/appstore"
 
 
 const Body = () => {
@@ -30,7 +29,6 @@ const Body = () => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const {uid, email, displayName} = user;
         dispatch(addUser({uid:uid, email:email, displayName:displayName}));
-        // ...
       } else {
         // User is signed out
         // ...
@@ -38,7 +36,7 @@ const Body = () => {
       }
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[dispatch])
   return (
     <>
         <RouterProvider router={appRouter}/>
